@@ -1,0 +1,27 @@
+info:
+  version: 1.0.1
+  title: DBWriter
+  description: This service subscribes to orchestrator channel and writes messages in mongoDB
+  contact:
+    name: Raghav Gupta
+    email: raghav831@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+lifecycle:
+  startup:
+    command: ["node", "index.js"] # would start the server and create database connections (mongoDB + redis)
+actions:
+  subscribe:
+    help: Subsribe to orchestrator_channel
+    events:
+      orchestrator_channel:
+        redis:
+          arguments:
+            originalChannel:
+              type: string
+            originalMessage:
+              type: string
+        action:
+          insertion:
+          help: insert data into mongoDB

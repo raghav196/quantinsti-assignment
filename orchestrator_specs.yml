@@ -1,0 +1,48 @@
+info:
+  version: 1.0.1
+  title: Orchestrator
+  description: This service subscribes/unscribes to redis channels based on API actions
+  contact:
+    name: Raghav Gupta
+    email: raghav831@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+lifecycle:
+  startup:
+    command: ["node", "index.js"] # would start the server and create database connections (postgres + redis)
+actions:
+  subscribe:
+    arguments:
+      channel:
+        type: string
+        in: requestBody
+    output:
+      type: object
+      properties:
+        code:
+          type: int
+        success:
+          type: boolean
+    http:
+      method: post
+      endpoint: /api/v1/start-listening
+      port: 80
+      contentType: application/json
+  unsubscribe:
+    arguments:
+      channel:
+        type: string
+        in: path
+    output:
+      type: object
+      properties:
+        code:
+          type: int
+        success:
+          type: boolean
+    http:
+      method: delete
+      endpoint: /api/v1/stop-listening/{channel}
+      port: 80
+      contentType: application/json
